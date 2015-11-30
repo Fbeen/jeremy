@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\PageRepository")
  */
-class Page
+class Block
 {
     /**
      * @var integer
@@ -29,14 +29,14 @@ class Page
      *
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="title", type="string", length=64)
+     * @ORM\Column(name="name", type="string", length=64)
      */
-    private $title;
+    private $name;
 
     /**
      * @var string
      *
-     * @Slug("title")
+     * @Slug("name")
      * 
      * @ORM\Column(name="slug", type="string", length=74)
      */
@@ -64,14 +64,14 @@ class Page
     private $changed;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Block", mappedBy="pages")
+     * @ORM\ManyToMany(targetEntity="Page", inversedBy="blocks")
+     * @ORM\JoinTable(name="pages_blocks")
      */
-    private $blocks;
-    
+    private $pages;
 
     public function __construct()
     {
-        $this->blocks = new ArrayCollection();
+        $this->pages = new ArrayCollection();
         $this->created = new \DateTime();
         $this->changed = new \DateTime();
     }
@@ -81,7 +81,6 @@ class Page
         return $this->slug;
     }
 
-    
     /**
      * Get id
      *
@@ -93,27 +92,27 @@ class Page
     }
 
     /**
-     * Set title
+     * Set name
      *
-     * @param string $title
+     * @param string $name
      *
-     * @return Page
+     * @return Block
      */
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get title
+     * Get name
      *
      * @return string
      */
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 
     /**
@@ -121,7 +120,7 @@ class Page
      *
      * @param string $slug
      *
-     * @return Page
+     * @return Block
      */
     public function setSlug($slug)
     {
@@ -145,7 +144,7 @@ class Page
      *
      * @param string $body
      *
-     * @return Page
+     * @return Block
      */
     public function setBody($body)
     {
@@ -169,7 +168,7 @@ class Page
      *
      * @param \DateTime $created
      *
-     * @return Page
+     * @return Block
      */
     public function setCreated($created)
     {
@@ -193,7 +192,7 @@ class Page
      *
      * @param \DateTime $changed
      *
-     * @return Page
+     * @return Block
      */
     public function setChanged($changed)
     {
@@ -213,36 +212,36 @@ class Page
     }
 
     /**
-     * Add block
+     * Add page
      *
-     * @param \AppBundle\Entity\Block $block
+     * @param \AppBundle\Entity\Page $page
      *
-     * @return Page
+     * @return Block
      */
-    public function addBlock(\AppBundle\Entity\Block $block)
+    public function addPage(\AppBundle\Entity\Page $page)
     {
-        $this->blocks[] = $block;
+        $this->pages[] = $page;
 
         return $this;
     }
 
     /**
-     * Remove block
+     * Remove page
      *
-     * @param \AppBundle\Entity\Block $block
+     * @param \AppBundle\Entity\Page $page
      */
-    public function removeBlock(\AppBundle\Entity\Block $block)
+    public function removePage(\AppBundle\Entity\Page $page)
     {
-        $this->blocks->removeElement($block);
+        $this->pages->removeElement($page);
     }
 
     /**
-     * Get blocks
+     * Get pages
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getBlocks()
+    public function getPages()
     {
-        return $this->blocks;
+        return $this->pages;
     }
 }

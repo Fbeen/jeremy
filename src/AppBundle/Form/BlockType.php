@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class PageType extends AbstractType
+class BlockType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,9 +15,8 @@ class PageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('name')
             ->add('body')
-            ->add('blocks')
         ;
     }
     
@@ -27,7 +26,7 @@ class PageType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Page'
+            'data_class' => 'AppBundle\Entity\Block'
         ));
     }
 
@@ -36,6 +35,6 @@ class PageType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_page';
+        return 'appbundle_block';
     }
 }
